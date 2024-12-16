@@ -1,5 +1,6 @@
-modelscope
+#modelscope
 diffusers
 # transformers==4.25.1
 accelerate
-opencv_python
+#opencv_python
+opencv-python-headless
