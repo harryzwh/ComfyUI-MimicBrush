@@ -2,6 +2,7 @@ import os
 import cv2
 import torch
 import numpy as np
+import yaml
 from PIL import Image
 from cuda_malloc import cuda_malloc_supported
 import torch.nn.functional as F
@@ -19,20 +20,27 @@ from MimicBrush.models.ReferenceNet import ReferenceNet
 from MimicBrush.models.pipeline_mimicbrush import MimicBrushPipeline
 
 
-from modelscope.hub.snapshot_download import snapshot_download as ms_snapshot_download
+#from modelscope.hub.snapshot_download import snapshot_download as ms_snapshot_download
 
 
-now_dir = os.path.dirname(os.path.abspath(__file__))
-weights_path = os.path.join(now_dir,"weights")
-os.makedirs(weights_path,exist_ok=True)
+#now_dir = os.path.dirname(os.path.abspath(__file__))
+#weights_path = os.path.join(now_dir,"weights")
+#os.makedirs(weights_path,exist_ok=True)
 
-ms_snapshot_download('xichen/cleansd', cache_dir=weights_path)
-print('=== Pretrained SD weights downloaded ===')
-ms_snapshot_download('xichen/MimicBrush', cache_dir=weights_path)
-print('=== MimicBrush weights downloaded ===')
+#ms_snapshot_download('xichen/cleansd', cache_dir=weights_path)
+#print('=== Pretrained SD weights downloaded ===')
+#ms_snapshot_download('xichen/MimicBrush', cache_dir=weights_path)
+#print('=== MimicBrush weights downloaded ===')
 
-cleansd_weights_path = os.path.join(weights_path,"xichen","cleansd")
-mimicbrush_weights_path = os.path.join(weights_path,"xichen","MimicBrush")
+config_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
+if os.path.exists(config_path):
+    config = yaml.load(open(config_path, "r"), Loader=yaml.FullLoader)
+    weights_path=config["weights_path"]
+else:
+    weights_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "weights")
+    cleansd_weights_path = os.path.join(weights_path,"cleansd")
+    mimicbrush_weights_path = os.path.join(weights_path,"MimicBrush")
+    
 # === load the checkpoint ===
 base_model_path = os.path.join(cleansd_weights_path,"stable-diffusion-inpainting")
 vae_model_path = os.path.join(mimicbrush_weights_path,"sd-vae-ft-mse")
