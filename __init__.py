@@ -2,28 +2,33 @@ import cv2
 import torch
 import numpy as np
 import os,site
-now_dir = os.path.dirname(os.path.abspath(__file__))
-site_packages_roots = []
-for path in site.getsitepackages():
-    if "packages" in path:
-        site_packages_roots.append(path)
-if(site_packages_roots==[]):site_packages_roots=["%s/runtime/Lib/site-packages" % now_dir]
+import sys
+from pathlib import Path
 
-for site_packages_root in site_packages_roots:
-    if os.path.exists(site_packages_root):
-        try:
-            with open("%s/MimicBrush.pth" % (site_packages_root), "w") as f:
-                f.write(
-                    "%s\n%s/MimicBrush\n"
-                    % (now_dir,now_dir)
-                )
-            break
-        except PermissionError:
-            raise PermissionError
+# now_dir = os.path.dirname(os.path.abspath(__file__))
+# site_packages_roots = []
+# for path in site.getsitepackages():
+#     if "packages" in path:
+#         site_packages_roots.append(path)
+# if(site_packages_roots==[]):site_packages_roots=["%s/runtime/Lib/site-packages" % now_dir]
 
-if os.path.isfile("%s/MimicBrush.pth" % (site_packages_root)):
-    print("!!!MimicBrush path was added to " + "%s/MimicBrush.pth" % (site_packages_root) 
-    + "\n if meet No module named 'MimicBrush' error,please restart comfyui")
+# for site_packages_root in site_packages_roots:
+#     if os.path.exists(site_packages_root):
+#         try:
+#             with open("%s/MimicBrush.pth" % (site_packages_root), "w") as f:
+#                 f.write(
+#                     "%s\n%s/MimicBrush\n"
+#                     % (now_dir,now_dir)
+#                 )
+#             break
+#         except PermissionError:
+#             raise PermissionError
+
+# if os.path.isfile("%s/MimicBrush.pth" % (site_packages_root)):
+#     print("!!!MimicBrush path was added to " + "%s/MimicBrush.pth" % (site_packages_root) 
+#     + "\n if meet No module named 'MimicBrush' error,please restart comfyui")
+
+sys.path.append(str(Path(__file__).parent.resolve()))
 
 from .infer import inference_single_image,crop_padding_and_resize,vis_mask
 
