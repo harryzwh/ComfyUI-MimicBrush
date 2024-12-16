@@ -38,8 +38,9 @@ if os.path.exists(config_path):
     weights_path=config["weights_path"]
 else:
     weights_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "weights")
-    cleansd_weights_path = os.path.join(weights_path,"cleansd")
-    mimicbrush_weights_path = os.path.join(weights_path,"MimicBrush")
+
+cleansd_weights_path = os.path.join(weights_path,"cleansd")
+mimicbrush_weights_path = os.path.join(weights_path,"MimicBrush")
     
 # === load the checkpoint ===
 base_model_path = os.path.join(cleansd_weights_path,"stable-diffusion-inpainting")
