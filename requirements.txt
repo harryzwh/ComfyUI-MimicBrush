@@ -4,3 +4,4 @@ diffusers
 accelerate
 #opencv_python
 opencv-python-headless
+PyYAML
